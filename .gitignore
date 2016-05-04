@@ -1,2 +1,4 @@
 venv/*
 pypdf2cli/splitted.pdf
+*.pyc
+Worklog
