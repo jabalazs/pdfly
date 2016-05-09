@@ -1,6 +1,7 @@
 #!/usr/bin/python
 from __future__ import print_function
 import argparse
+import type_validation
 import pdf_utils
 import sys
 
@@ -17,10 +18,13 @@ parser.add_argument('-e',
                     is equivalent to the first page; end_page equals 0 is equivalent\
                     to the last page',
                     nargs=2,
-                    metavar=('beginning_page', 'end_page'))
+                    metavar=('from_page', 'to_page'))
 
 args =  parser.parse_args()
 
 if args.extract is not None:
-    pdf_utils.extract(args.infile, args.outfile, args.extract[0], args.extract[1])
+    from_page = args.extract[0]
+    to_page = args.extract[1]
+    type_validation.validate_extract_pages(from_page, to_page)
+    pdf_utils.extract(args.infile, args.outfile, from_page, to_page)
     sys.exit(0)

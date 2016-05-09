@@ -9,18 +9,15 @@ def extract(document, new_document, from_page=0, to_page=0):
     A value of 0 for from_page will mean beginning of the document, and a value
     of 0 for to_page will mean the end of the document
     """
-    page_validation = validate(from_page, to_page)
-    if not page_validation['check']:
-        raise ValueError(page_validation['message'])
-        return 1
 
     output = PdfFileWriter()
     input1 = PdfFileReader(open(document, "rb"))
 
-    if to_page == 0:
-        to_page = input1.getNumPages()
     if from_page == 0:
         from_page = 1
+
+    if to_page == 0:
+        to_page = input1.getNumPages()
 
     for i in range(from_page - 1, to_page):
         output.addPage(input1.getPage(i))
@@ -28,16 +25,6 @@ def extract(document, new_document, from_page=0, to_page=0):
     outputStream = file(new_document, "wb")
     output.write(outputStream)
     return 0
-
-def validate(from_page, to_page):
-    if not isinstance(from_page, int) or not isinstance(to_page, int):
-        return {'check': False, 'message': 'Page numbers must be integers'}
-    elif from_page < 0 or to_page < 0:
-        return {'check': False, 'message': 'Page numbers must be positive integers'}
-    elif (from_page > to_page) and to_page != 0:
-        return {'check': False, 'message': 'from_page must be smaller than to_page'}
-    else:
-        return {'check':True, 'message': ''}
 
 def main():
     output = PdfFileWriter()
