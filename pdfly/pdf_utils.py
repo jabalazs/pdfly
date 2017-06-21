@@ -26,6 +26,21 @@ def extract(document, new_document, from_page=0, to_page=0):
     output.write(outputStream)
     return 0
 
+def _add_full_pdf_to_writer(pdf_writer, pdf_reader):
+    for i in range(pdf_reader.getNumPages()):
+        page = pdf_reader.getPage(i)
+        pdf_writer.addPage(page)
+    return pdf_writer
+
+def merge(outfile, file_list):
+    pdf_writer = PdfFileWriter()
+    for filepath in file_list:
+        pdf_file = PdfFileReader(open(filepath, "rb"))
+        pdf_writer = _add_full_pdf_to_writer(pdf_writer, pdf_file)
+    output_stream = file(outfile, 'wb')
+    pdf_writer.write(output_stream)
+
+
 def main():
     output = PdfFileWriter()
     input1 = PdfFileReader(open("document1.pdf", "rb"))

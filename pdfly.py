@@ -27,7 +27,13 @@ extract_subparser.add_argument('to_page', type=int,
                                     last one""")
 extract_subparser.set_defaults(func='extract')
 
-merge_parser = subparsers.add_parser("merge", help='Tools for merging PDFs or part of them')
+merge_subparser = subparsers.add_parser(
+                                  "merge",
+                                  help='Tools for merging PDFs or part of them')
+merge_subparser.add_argument("-o", "--outfile", type=str, help='Path of the output PDF')
+merge_subparser.add_argument("pdfs_to_merge", type=str, nargs='+',
+                          help="""Paths to the PDF files to be merged""")
+merge_subparser.set_defaults(func='merge')
 
 parser.add_argument('-v', '--verbose', help='Increase output verbosity',
                     action='store_true')
@@ -42,5 +48,5 @@ if args.func == 'extract':
     type_validation.validate_extract_pages(from_page, to_page)
     pdf_utils.extract(args.infile, args.outfile, from_page, to_page)
 
-elif args.merge:
-    pass
+elif args.func == 'merge':
+    pdf_utils.merge(args.outfile, args.pdfs_to_merge)
