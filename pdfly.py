@@ -13,7 +13,7 @@ subparsers = parser.add_subparsers()
 extract_subparser = subparsers.add_parser(
     "extract",
     help="Extract pages from a PDF file",
-    description="Extract pages from a PDF " "file and save them to a new file",
+    description="Extract pages from a PDF file and save them to a new file",
 )
 extract_subparser.add_argument(
     "infile", type=str, help="Input PDF to be processed"
@@ -24,14 +24,12 @@ extract_subparser.add_argument(
 extract_subparser.add_argument(
     "from_page",
     type=int,
-    help="""First page to be extracted. Both 0 and 1
-                                    mean the first page""",
+    help="""First page to be extracted. Both 0 and 1 mean the first page""",
 )
 extract_subparser.add_argument(
     "to_page",
     type=int,
-    help="""Last page to be extracted. 0 means the
-                                    last one""",
+    help="""Last page to be extracted. 0 means the last one""",
 )
 extract_subparser.set_defaults(func="extract")
 
