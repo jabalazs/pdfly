@@ -4,7 +4,7 @@ import argparse
 from pdfly import pdf_utils, arg_validation
 
 parser = argparse.ArgumentParser(
-    description="Performs basic operations on " "PDF files"
+    description="Simple tool for merging PDF files or extracting pages from them."
 )
 
 subparsers = parser.add_subparsers()
