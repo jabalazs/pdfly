@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import argparse
-from pdfly import pdf_utils, type_validation
+from pdfly import pdf_utils, arg_validation
 
 parser = argparse.ArgumentParser(
     description="Performs basic operations on " "PDF files"
@@ -50,14 +50,14 @@ parser.add_argument(
 )
 
 args = parser.parse_args()
-print(args)
-
 
 if args.func == "extract":
     from_page = args.from_page
     to_page = args.to_page
-    type_validation.validate_extract_pages(from_page, to_page)
+    arg_validation.validate_page_numbers(from_page, to_page)
     pdf_utils.extract(args.infile, args.outfile, from_page, to_page)
 
 elif args.func == "merge":
     pdf_utils.merge(args.outfile, args.pdfs_to_merge)
+
+print(f"Created {args.outfile}")
