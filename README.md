@@ -11,7 +11,7 @@ Simple script for extracting pages from or merging PDF files.
 ```
 git clone https://github.com/jabalazs/pdfly
 cd pdfly
-pip install -r requirements
+pip install -r requirements.txt
 ```
 
 # Usage Examples
