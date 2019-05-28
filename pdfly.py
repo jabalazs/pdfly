@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 
-from __future__ import print_function
 import argparse
 from pdfly import pdf_utils, type_validation
-import sys
 
 parser = argparse.ArgumentParser(
     description="Performs basic operations on " "PDF files"

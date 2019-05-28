@@ -21,8 +21,8 @@ def extract(document, new_document, from_page=0, to_page=0):
     for i in range(from_page - 1, to_page):
         output.addPage(input1.getPage(i))
 
-    outputStream = file(new_document, "wb")
-    output.write(outputStream)
+    with open(new_document, "wb") as outfile:
+        output.write(outfile)
     return 0
 
 
@@ -33,10 +33,10 @@ def _add_full_pdf_to_writer(pdf_writer, pdf_reader):
     return pdf_writer
 
 
-def merge(outfile, file_list):
+def merge(new_document, file_list):
     pdf_writer = PdfFileWriter()
     for filepath in file_list:
         pdf_file = PdfFileReader(open(filepath, "rb"))
         pdf_writer = _add_full_pdf_to_writer(pdf_writer, pdf_file)
-    output_stream = file(outfile, "wb")
-    pdf_writer.write(output_stream)
+    with open(new_document, "wb") as outfile:
+        pdf_writer.write(outfile)
