@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
 import argparse
-from pdfly import pdf_utils, arg_validation
+
+from pdfly import arg_validation, pdf_utils
 
 parser = argparse.ArgumentParser(
     description="Simple tool for merging PDF files or extracting pages from them."

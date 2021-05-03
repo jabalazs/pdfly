@@ -1,4 +1,25 @@
-from PyPDF2 import PdfFileWriter, PdfFileReader
+from getpass import getpass
+
+from pikepdf import Pdf
+from pikepdf._qpdf import PasswordError
+from PyPDF2 import PdfFileReader, PdfFileWriter
+
+
+def _open_pdf(pdf_path):
+    """Simple wrapper arout `pikepdf.Pdf.open`.
+
+    This will prompt for a password when the pdf is encrypted, with an unlimited
+    amount of retries
+    """
+    is_open = False
+    password = ""
+    while not is_open:
+        try:
+            input_ = Pdf.open(pdf_path, password=password)
+            is_open = True
+        except PasswordError:
+            password = getpass()
+    return input_
 
 
 def extract(document, new_document, from_page=0, to_page=0):
@@ -9,20 +30,18 @@ def extract(document, new_document, from_page=0, to_page=0):
     of 0 for to_page will mean the end of the document
     """
 
-    output = PdfFileWriter()
-    input1 = PdfFileReader(open(document, "rb"))
+    input_ = _open_pdf(document)
+    pages = input_.pages
+    num_pages = len(pages)
 
-    if from_page == 0:
-        from_page = 1
+    from_page = 1 if from_page == 0 else from_page
+    to_page = num_pages if to_page == 0 else to_page
 
-    if to_page == 0:
-        to_page = input1.getNumPages()
+    extracted_pages = pages[from_page - 1 : to_page]
 
-    for i in range(from_page - 1, to_page):
-        output.addPage(input1.getPage(i))
-
-    with open(new_document, "wb") as outfile:
-        output.write(outfile)
+    output = Pdf.new()
+    output.pages.extend(extracted_pages)
+    output.save(new_document)
     return 0
 
 
