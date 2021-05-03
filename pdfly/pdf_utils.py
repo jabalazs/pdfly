@@ -2,7 +2,6 @@ from getpass import getpass
 
 from pikepdf import Pdf
 from pikepdf._qpdf import PasswordError
-from PyPDF2 import PdfFileReader, PdfFileWriter
 
 
 def _open_pdf(pdf_path):
@@ -23,8 +22,7 @@ def _open_pdf(pdf_path):
 
 
 def extract(document, new_document, from_page=0, to_page=0):
-    """
-    Split the PDF document beginning in from_page to to_page included.
+    """Split the PDF document beginning in from_page to to_page included.
 
     A value of 0 for from_page will mean beginning of the document, and a value
     of 0 for to_page will mean the end of the document
@@ -45,17 +43,9 @@ def extract(document, new_document, from_page=0, to_page=0):
     return 0
 
 
-def _add_full_pdf_to_writer(pdf_writer, pdf_reader):
-    for i in range(pdf_reader.getNumPages()):
-        page = pdf_reader.getPage(i)
-        pdf_writer.addPage(page)
-    return pdf_writer
-
-
 def merge(new_document, file_list):
-    pdf_writer = PdfFileWriter()
+    output = Pdf.new()
     for filepath in file_list:
-        pdf_file = PdfFileReader(open(filepath, "rb"))
-        pdf_writer = _add_full_pdf_to_writer(pdf_writer, pdf_file)
-    with open(new_document, "wb") as outfile:
-        pdf_writer.write(outfile)
+        pages_to_merge = _open_pdf(filepath).pages
+        output.pages.extend(pages_to_merge)
+    output.save(new_document)

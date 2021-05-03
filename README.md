@@ -4,7 +4,7 @@ Simple script for extracting pages from or merging PDF files.
 
 # Dependencies
 * Python 3
-* PyPDF2
+* pikepdf
 
 # Installation
 
@@ -33,5 +33,3 @@ we can execute:
 ```
 python pdfly.py merge document1.pdf document2.pdf document3.pdf -o merged.pdf
 ```
-
-
